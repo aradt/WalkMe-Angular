@@ -10,10 +10,12 @@ import { filter } from 'minimatch';
 })
 export class CoursesService {
   private courseSubject = new BehaviorSubject<Course[]>([]);
-  private addedCourses: Course[] = [];
+  private newCourses: Course[] = [];
+  private editCourses: Course[] = [];
   private coursesObservavle$: Observable<Course[]>;
 
   constructor(private httpRequestService: HttpRequestService) {
+    // save the data local
     this.coursesObservavle$ = this.httpRequestService.getCourses().pipe(
       shareReplay(1),
     );
@@ -22,10 +24,22 @@ export class CoursesService {
   getCourses() {
     return this.courseSubject.asObservable().pipe(
       switchMap(addedList => this.coursesObservavle$.pipe(
-        map(courses => [...courses, ...addedList])
+        // combine the data from the server with the new courses
+        map(courses => [...courses, ...addedList]),
+        // update the edited courses
+        tap(courses => courses.forEach(existCourse => {
+          const editCourses = this.editCourses.filter(editCourse => editCourse.ID === existCourse.ID);
+          if (editCourses.length > 0) {
+            Object.assign(existCourse, editCourses[0]);
+          }
+        }))
       )),
 
     );
+  }
+
+  refresh() {
+    this.courseSubject.next(this.newCourses);
   }
 
   getCourseById(id: string) {
@@ -34,8 +48,11 @@ export class CoursesService {
     );
   }
 
-  Add(course: Course) {
-    this.addedCourses.push(course);
-    this.courseSubject.next(this.addedCourses);
+  add(course: Course) {
+    this.newCourses.push(course);
+  }
+
+  edit(course: Course) {
+    this.editCourses.push(course);
   }
 }

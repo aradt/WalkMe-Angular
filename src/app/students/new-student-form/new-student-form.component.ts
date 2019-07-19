@@ -32,10 +32,12 @@ export class NewStudentFormComponent implements OnInit, OnDestroy {
         } else {
           // load exist student
           // not ready yet
-          // return this.studentsService.getStudentById();
+          return this.studentsService.getStudentById(urlParams[1].path);
         }
       })
-    ).subscribe();
+    ).subscribe(existStudents => {
+      this.student = existStudents[0];
+    });
   }
 
   ngOnDestroy() {
@@ -43,17 +45,38 @@ export class NewStudentFormComponent implements OnInit, OnDestroy {
     this.unsubscribeSubject.complete();
   }
 
-  onAddClick() {
+  onSave() {
+    this.mode === 'Add' ? this.onAddClick() : this.onEditClick();
+  }
+
+  private onAddClick() {
+    this.studentsService.getStudetns().pipe(
+      tap( students => {
+        // check if the course exist by id;
+        const existStudents = students.filter(student => student.ID === this.student.ID );
+        // if course with the same if had been found
+        if (existStudents.length === 0) {
+          this.studentsService.add(this.student);
+        }
+      })
+    ).subscribe( () => {
+      this.route.navigate(['/students']);
+    }, err => {
+      console.log(err);
+    });
+  }
+
+  private onEditClick() {
     this.studentsService.getStudetns().pipe(
       tap( students => {
         // check if the course exist by id;
         students.filter(student => student.ID === this.student.ID );
         // if course with the same if had been found
-        if (students.length === 0) {
-          this.studentsService.add(this.student);
+        if (students.length > 0) {
+          this.studentsService.edit(this.student);
         } else {
           // incase that the id is exist
-          throw new Error('student id alread exist');
+           throw new Error('student does not exist');
         }
       })
     ).subscribe( () => {

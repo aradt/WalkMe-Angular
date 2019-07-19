@@ -34,10 +34,12 @@ export class NewCourseFormComponent implements OnInit, OnDestroy {
         } else {
           // load exist course
           // not ready yet
-          return this.coursesService.getCourseById('0');
+          return this.coursesService.getCourseById(urlParams[1].path);
         }
       })
-    ).subscribe();
+    ).subscribe(existCourse => {
+      this.course = existCourse[0];
+    });
   }
 
   ngOnDestroy() {
@@ -45,17 +47,38 @@ export class NewCourseFormComponent implements OnInit, OnDestroy {
     this.unsubscribeSubject.complete();
   }
 
+  onSaveClick() {
+    this.mode === 'Add' ? this.onAddClick() : this.onEditClick();
+  }
+
   onAddClick() {
     this.coursesService.getCourses().pipe(
       tap( courses => {
         // check if the course exist by id;
-        courses.filter(existCourse => existCourse.ID === this.course.ID );
+        const existCourses = courses.filter(existCourse => existCourse.ID === this.course.ID );
         // if course with the same if had been found
-        if (courses.length === 0) {
-          this.coursesService.Add(this.course);
+        if (existCourses.length === 0) {
+          this.coursesService.add(this.course);
+        }
+      })
+    ).subscribe( () => {
+      this.route.navigate(['/courses']);
+    }, err => {
+      console.log(err);
+    });
+  }
+
+  onEditClick() {
+    this.coursesService.getCourses().pipe(
+      tap( courses => {
+        // check if the course exist by id;
+        const existCourses = courses.filter(existCourse => existCourse.ID === this.course.ID );
+        // if course with the same if had been found
+        if (existCourses.length > 0) {
+          this.coursesService.edit(this.course);
         } else {
           // incase that the id is exist
-          throw new Error('Course id alread exist');
+          throw new Error('Course not exist');
         }
       })
     ).subscribe( () => {

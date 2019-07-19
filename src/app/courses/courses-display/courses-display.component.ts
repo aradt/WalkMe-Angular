@@ -18,6 +18,7 @@ export class CoursesDisplayComponent implements OnInit {
   constructor(private coursesService: CoursesService, private route: Router) { }
 
   ngOnInit() {
+    this.coursesService.refresh();
     this.courses$ = this.coursesService.getCourses();
   }
 
