@@ -4,3 +4,7 @@ export interface Course {
     name: string;
     students: string[];
 }
+
+export function emptyCourse() {
+    return {ID: '', name: '', students: []};
+}

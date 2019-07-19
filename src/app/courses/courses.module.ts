@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { FormsModule } from '@angular/forms';
 import { CoursesRoutingModule } from './courses-routing.module';
 import { ShareModule } from '../share/share.module';
 import { CoursesDisplayComponent } from './courses-display/courses-display.component';
@@ -8,11 +8,13 @@ import { NewCourseFormComponent } from './new-course-form/new-course-form.compon
 
 
 @NgModule({
-  declarations: [CoursesDisplayComponent, NewCourseFormComponent],
+  declarations: [CoursesDisplayComponent,
+     NewCourseFormComponent],
   imports: [
     CommonModule,
+    FormsModule,
     CoursesRoutingModule,
-    ShareModule
+    ShareModule,
   ]
 })
 export class CoursesModule { }

@@ -3,6 +3,7 @@ import { HttpRequestService } from 'src/app/services/http-request.service';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { Course } from 'src/app/models/course';
 import { shareReplay, switchMap, map, tap } from 'rxjs/operators';
+import { filter } from 'minimatch';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { shareReplay, switchMap, map, tap } from 'rxjs/operators';
 export class CoursesService {
   private courseSubject = new BehaviorSubject<Course[]>([]);
   private addedCourses: Course[] = [];
-  private coursesObservavle$: Observable<Course[]> = of([]);
+  private coursesObservavle$: Observable<Course[]>;
 
   constructor(private httpRequestService: HttpRequestService) {
     this.coursesObservavle$ = this.httpRequestService.getCourses().pipe(
@@ -24,6 +25,12 @@ export class CoursesService {
         map(courses => [...courses, ...addedList])
       )),
 
+    );
+  }
+
+  getCourseById(id: string) {
+    return this.coursesObservavle$.pipe(
+      map((courses: Course[]) => courses.filter(course => course.ID === id))
     );
   }
 
