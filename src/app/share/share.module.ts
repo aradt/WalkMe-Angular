@@ -8,6 +8,7 @@ import { TableComponent } from './table/table.component';
   declarations: [TableComponent],
   imports: [
     CommonModule
-  ]
+  ],
+  exports: [TableComponent]
 })
 export class ShareModule { }

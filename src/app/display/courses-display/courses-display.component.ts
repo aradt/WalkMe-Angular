@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CoursesService } from './services/courses.service';
 import { Observable } from 'rxjs';
 import { Course } from 'src/app/models/course';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-courses-display',
@@ -16,7 +17,9 @@ export class CoursesDisplayComponent implements OnInit {
   constructor(private coursesService: CoursesService) { }
 
   ngOnInit() {
-    this.courses$ = this.coursesService.getCourses();
+    this.courses$ = this.coursesService.getCourses().pipe(
+      shareReplay(1)
+    );
   }
 
 }

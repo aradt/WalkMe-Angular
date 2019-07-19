@@ -1,1 +1,16 @@
-<p>table works!</p>
+<table>
+    <header>
+        <tr>
+            <ng-container *ngFor="let header of headers">
+                <td>{{header}}</td>
+            </ng-container>
+        </tr>
+    </header>
+    <body>
+        <tr *ngFor="let row of data">
+            <ng-container *ngFor="let column of headers">
+                {{row[column]}}
+            </ng-container>
+        </tr>
+    </body>
+</table>
