@@ -3,6 +3,7 @@ import { StudentsService } from '../services/students.service';
 import { Observable } from 'rxjs';
 import { Student } from 'src/app/models/student';
 import { shareReplay } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-students-display',
@@ -14,10 +15,14 @@ export class StudentsDisplayComponent implements OnInit {
 
   students$: Observable<Student[]>;
 
-  constructor(private studentsService: StudentsService) { }
+  constructor(private studentsService: StudentsService, private route: Router) { }
 
   ngOnInit() {
     this.students$ = this.studentsService.getStudetns();
+  }
+
+  onRowClicked(student: Student) {
+    this.route.navigate(['/students/edit/' + student.ID]);
   }
 
 }

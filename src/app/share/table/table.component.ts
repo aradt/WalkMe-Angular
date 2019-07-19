@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-table',
@@ -7,7 +7,9 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 })
 export class TableComponent implements OnInit, OnChanges {
 
+  @Output() rowClick = new EventEmitter<any>();
   @Input() data: any[];
+
   headers: string[];
 
   constructor() { }
@@ -19,6 +21,10 @@ export class TableComponent implements OnInit, OnChanges {
     if (sc.data && this.data && this.data.length > 0) {
       this.headers = Object.keys(this.data[0]);
     }
+  }
+
+  onRowClicked(row: any) {
+    this.rowClick.emit(row);
   }
 
 }

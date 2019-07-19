@@ -4,7 +4,7 @@
             <th>{{header}}</th>
         </ng-container>
     </tr>
-    <tr *ngFor="let row of data">
+    <tr *ngFor="let row of data" (click)="onRowClicked(row)">
         <ng-container *ngFor="let column of headers">
             <td>{{row[column]}}</td>
         </ng-container>
