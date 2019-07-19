@@ -20,8 +20,8 @@ export class HttpRequestService {
     return this.httpClient.get<Student>(this.studentsUrl);
   }
 
-  getCourses(): Observable<Course> {
-    return this.httpClient.get<Course>(this.coursesurl);
+  getCourses(): Observable<Course[]> {
+    return this.httpClient.get<Course[]>(this.coursesurl);
   }
 
   getMarks(): Observable<Mark> {

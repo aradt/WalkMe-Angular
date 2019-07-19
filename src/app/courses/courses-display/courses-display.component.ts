@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CoursesService } from './services/courses.service';
+import { CoursesService } from '../services/courses.service';
 import { Observable } from 'rxjs';
 import { Course } from 'src/app/models/course';
 import { map, shareReplay } from 'rxjs/operators';
@@ -8,18 +8,20 @@ import { map, shareReplay } from 'rxjs/operators';
   selector: 'app-courses-display',
   templateUrl: './courses-display.component.html',
   styleUrls: ['./courses-display.component.scss'],
-  providers: [CoursesService]
+  providers: []
 })
 export class CoursesDisplayComponent implements OnInit {
 
-  courses$: Observable<Course>;
+  courses$: Observable<Course[]>;
 
   constructor(private coursesService: CoursesService) { }
 
   ngOnInit() {
-    this.courses$ = this.coursesService.getCourses().pipe(
-      shareReplay(1)
-    );
+    this.courses$ = this.coursesService.getCourses();
+  }
+
+  onAddCourseClicked() {
+
   }
 
 }
