@@ -32,7 +32,8 @@ export class NewCourseFormComponent implements OnInit, OnDestroy {
         if (this.mode === 'Add') {
           return empty();
         } else {
-          console.log(urlParams[0]);
+          // load exist course
+          // not ready yet
           return this.coursesService.getCourseById('0');
         }
       })

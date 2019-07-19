@@ -1,0 +1,20 @@
+<h1>{{mode}} Student</h1>
+
+<div class="flex-container">
+    <label>Id:</label>
+    <input [(ngModel)]="student.ID">
+</div>
+<div class="flex-container">
+    <label>First Name:</label>
+    <input [(ngModel)]="student.firstName">
+</div>
+<div class="flex-container">
+    <label>Last Name:</label>
+    <input [(ngModel)]="student.lastName">
+</div>
+<div class="flex-container">
+    <label>Marks:</label>
+    <input [(ngModel)]="student.marks">
+</div>
+
+<button (click)="onAddClick()">Save</button>

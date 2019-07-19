@@ -16,16 +16,16 @@ export class HttpRequestService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getStudents(): Observable<Student> {
-    return this.httpClient.get<Student>(this.studentsUrl);
+  getStudents(): Observable<Student[]> {
+    return this.httpClient.get<Student[]>(this.studentsUrl);
   }
 
   getCourses(): Observable<Course[]> {
     return this.httpClient.get<Course[]>(this.coursesurl);
   }
 
-  getMarks(): Observable<Mark> {
-    return this.httpClient.get<Mark>(this.marksUrl);
+  getMarks(): Observable<Mark[]> {
+    return this.httpClient.get<Mark[]>(this.marksUrl);
   }
 
 }
