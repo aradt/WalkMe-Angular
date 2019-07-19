@@ -1,1 +1,5 @@
 <p>courses-display works!</p>
+
+<div *ngFor="let course of courses$ | async">
+    {{course | json}}
+</div>

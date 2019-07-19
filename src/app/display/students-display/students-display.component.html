@@ -1,1 +1,5 @@
 <p>students-display works!</p>
+
+<div *ngFor="let student of students$ | async">
+    {{student | json}}
+</div>
